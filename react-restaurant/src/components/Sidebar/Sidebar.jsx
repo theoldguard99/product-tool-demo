@@ -12,9 +12,6 @@ const Sidebar = () => {
         <li>
           <Link to="/products">Products</Link>
         </li>
-        <li>
-          <Link to="/banners">Banners</Link>
-        </li>
       </ul>
     </div>
   );
