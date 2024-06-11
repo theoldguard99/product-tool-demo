@@ -2,17 +2,23 @@ import React from "react";
 import "./LoginForm.css";
 import { FaUser, FaUnlock } from "react-icons/fa";
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add authentication logic here
+    onLogin();
+  };
+
   return (
     <div className="wrapper">
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <h1>Login</h1>
         <div className="input-box">
           <input type="text" placeholder="Username" required />
           <FaUser className="icon" />
         </div>
         <div className="input-box">
-          <input type="passowrd" placeholder="Password" required />
+          <input type="password" placeholder="Password" required />
           <FaUnlock className="icon" />
         </div>
         <div className="remember-forgot">
