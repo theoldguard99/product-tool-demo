@@ -1,12 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import { FaUser, FaUnlock } from "react-icons/fa";
 
 const LoginForm = ({ onLogin }) => {
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add authentication logic here
-    onLogin();
+    onLogin(); // Simulate login
+    navigate("/"); // Navigate to home after login
   };
 
   return (
