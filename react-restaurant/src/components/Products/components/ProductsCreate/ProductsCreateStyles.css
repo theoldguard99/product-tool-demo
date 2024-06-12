@@ -1,0 +1,18 @@
+.card-container {
+  border-radius: 15px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+.bold-title {
+  font-weight: bold;
+}
+
+.optional-text {
+  font-style: italic;
+  color: gray;
+  font-size: 0.5em;
+}
+
+.form-container {
+  padding: 20px;
+}
