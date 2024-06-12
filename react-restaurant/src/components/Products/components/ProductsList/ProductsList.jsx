@@ -14,6 +14,7 @@ import {
   Box,
   Card,
   TableSortLabel,
+  Divider,
 } from "@mui/material";
 import "./ProductsList.css";
 
@@ -81,6 +82,7 @@ const ProductsList = () => {
             sx={{ maxWidth: "100%" }}
           />
         </Box>
+        <Divider />
         <TableContainer component={Paper}>
           <Table>
             <TableHead>

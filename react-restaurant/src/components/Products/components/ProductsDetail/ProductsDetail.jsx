@@ -137,7 +137,7 @@ const ProductsDetail = () => {
         <CardHeader
           title={<span className="bold-title">Product Details</span>}
         />
-        <Divider fullWidth />
+        <Divider />
         <Box p={2}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
