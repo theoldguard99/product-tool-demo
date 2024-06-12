@@ -192,7 +192,7 @@ const ProductsCreate = () => {
         <CardHeader
           title={<span className="bold-title">Product Details</span>}
         />
-        <Divider fullWidth />
+        <Divider />
         <form onSubmit={handleSubmit} className="form-container">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

@@ -89,7 +89,7 @@ const ProductImage = ({
             </span>
           }
         />
-        <Divider fullWidth />
+        <Divider />
         <CardContent>
           <Box display="flex" flexDirection="column" alignItems="center">
             <input
