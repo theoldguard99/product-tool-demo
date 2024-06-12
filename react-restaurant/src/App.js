@@ -14,26 +14,21 @@ const App = () => {
 
   useEffect(() => {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
-    console.log('Checking localStorage isLoggedIn:', loggedInStatus);
     if (loggedInStatus === 'true') {
       setIsLoggedIn(true);
-      console.log('User is logged in');
     } else {
       setIsLoggedIn(false);
-      console.log('User is not logged in');
     }
   }, []);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
     localStorage.setItem('isLoggedIn', 'true');
-    console.log('User logged in and localStorage set');
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn');
-    console.log('User logged out and localStorage cleared');
   };
 
   return (

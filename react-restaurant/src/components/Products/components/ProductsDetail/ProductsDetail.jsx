@@ -32,12 +32,12 @@ const ProductsDetail = () => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setProduct(snapshot.val());
-        } else {
-          console.error("No data available");
         }
       })
       .catch((error) => {
-        console.error("Error fetching product details:", error);
+        enqueueSnackbar("Error updating product: " + error.message, {
+          variant: "error",
+        });
       });
   }, [id]);
 
