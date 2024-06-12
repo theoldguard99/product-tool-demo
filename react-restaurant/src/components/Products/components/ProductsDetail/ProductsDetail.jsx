@@ -250,6 +250,8 @@ const ProductsDetail = () => {
       <ProductImage
         onImageChange={handleImageChange}
         imageUrl={product.imageUrl}
+        isEditing={isEditing}
+        disabled={!isEditing}
       />
       <SaveButtonBar
         onSave={handleSave}

@@ -27,17 +27,24 @@ const SaveButtonBar = ({
               Cancel
             </Button>
           </>
+        ) : hasDetails ? (
+          <>
+            <Button variant="contained" color="primary" onClick={onEdit}>
+              Edit
+            </Button>
+            <Button variant="contained" color="error" onClick={onDelete}>
+              Delete
+            </Button>
+          </>
         ) : (
-          hasDetails && (
-            <>
-              <Button variant="contained" color="primary" onClick={onEdit}>
-                Edit
-              </Button>
-              <Button variant="contained" color="error" onClick={onDelete}>
-                Delete
-              </Button>
-            </>
-          )
+          <>
+            <Button variant="contained" color="primary" onClick={onSave}>
+              Save
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={onCancel}>
+              Cancel
+            </Button>
+          </>
         )}
       </Box>
     </>

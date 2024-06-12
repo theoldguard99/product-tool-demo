@@ -18,8 +18,8 @@ const ProductImage = ({
   onImageChange,
   maxWidth = 1280,
   maxHeight = 720,
-  clearImage,
   imageUrl,
+  disabled,
 }) => {
   const [, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(imageUrl || null);
@@ -98,6 +98,7 @@ const ProductImage = ({
               id="image-input"
               type="file"
               onChange={handleImageChange}
+              disabled={disabled}
             />
             <label htmlFor="image-input">
               {!imagePreview && (
@@ -105,6 +106,7 @@ const ProductImage = ({
                   color="primary"
                   aria-label="upload picture"
                   component="span"
+                  disabled={disabled}
                 >
                   <PhotoCamera />
                 </IconButton>
@@ -121,6 +123,7 @@ const ProductImage = ({
                   color="secondary"
                   aria-label="remove picture"
                   onClick={handleRemoveImage}
+                  disabled={disabled}
                   style={{ position: "absolute", top: 0, right: 0 }}
                 >
                   <DeleteIcon />

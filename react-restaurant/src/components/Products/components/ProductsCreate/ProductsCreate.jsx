@@ -335,11 +335,7 @@ const ProductsCreate = () => {
         </form>
       </Card>
       <ProductImage onImageChange={handleImageChange} />
-      <SaveButtonBar
-        onSave={handleSubmit}
-        onCancel={handleCancel}
-        isEditing={true}
-      />
+      <SaveButtonBar onSave={handleSubmit} onCancel={handleCancel} />
     </>
   );
 };
