@@ -14,7 +14,7 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./ProductsImageStyles.css";
 
-const ImageInput = ({
+const ProductImage = ({
   onImageChange,
   maxWidth = 1280,
   maxHeight = 720,
@@ -160,4 +160,4 @@ const ImageInput = ({
   );
 };
 
-export default ImageInput;
+export default ProductImage;

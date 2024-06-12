@@ -16,7 +16,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import ImageInput from "../ProductsImage/ProductsImage";
+import ProductImage from "../ProductsImage/ProductsImage";
 import SaveButtonBar from "../../../SaveButtonBar/SaveButtonBar";
 
 const ProductsDetail = () => {
@@ -247,7 +247,7 @@ const ProductsDetail = () => {
           <Box mt={2} display="flex" justifyContent="flex-end"></Box>
         </Box>
       </Card>
-      <ImageInput
+      <ProductImage
         onImageChange={handleImageChange}
         imageUrl={product.imageUrl}
       />
