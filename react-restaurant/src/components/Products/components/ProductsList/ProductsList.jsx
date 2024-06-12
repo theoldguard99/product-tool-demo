@@ -15,6 +15,7 @@ import {
   Card,
   TableSortLabel,
 } from "@mui/material";
+import "./ProductsList.css";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -69,7 +70,7 @@ const ProductsList = () => {
 
   return (
     <div>
-      <Card>
+      <Card className="card-container">
         <Box mb={2} sx={{ padding: 2 }}>
           <TextField
             fullWidth

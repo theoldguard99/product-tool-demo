@@ -24,7 +24,7 @@ import {
   isMaxLength,
 } from "../../validators";
 import { useSnackbar } from "notistack";
-import ImageInput from "../ProductsImage/ProductsImage";
+import ProductImage from "../ProductsImage/ProductsImage";
 import "./ProductsCreateStyles.css";
 
 const ProductsCreate = () => {
@@ -334,12 +334,8 @@ const ProductsCreate = () => {
           </Grid>
         </form>
       </Card>
-      <ImageInput onImageChange={handleImageChange} />
-      <SaveButtonBar
-        onSave={handleSubmit}
-        onCancel={handleCancel}
-        isEditing={true}
-      />
+      <ProductImage onImageChange={handleImageChange} />
+      <SaveButtonBar onSave={handleSubmit} onCancel={handleCancel} />
     </>
   );
 };

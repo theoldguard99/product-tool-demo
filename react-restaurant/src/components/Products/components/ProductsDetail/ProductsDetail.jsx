@@ -16,7 +16,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import ImageInput from "../ProductsImage/ProductsImage";
+import ProductImage from "../ProductsImage/ProductsImage";
 import SaveButtonBar from "../../../SaveButtonBar/SaveButtonBar";
 
 const ProductsDetail = () => {
@@ -32,12 +32,12 @@ const ProductsDetail = () => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setProduct(snapshot.val());
-        } else {
-          console.error("No data available");
         }
       })
       .catch((error) => {
-        console.error("Error fetching product details:", error);
+        enqueueSnackbar("Error updating product: " + error.message, {
+          variant: "error",
+        });
       });
   }, [id]);
 
@@ -247,9 +247,11 @@ const ProductsDetail = () => {
           <Box mt={2} display="flex" justifyContent="flex-end"></Box>
         </Box>
       </Card>
-      <ImageInput
+      <ProductImage
         onImageChange={handleImageChange}
         imageUrl={product.imageUrl}
+        isEditing={isEditing}
+        disabled={!isEditing}
       />
       <SaveButtonBar
         onSave={handleSave}
