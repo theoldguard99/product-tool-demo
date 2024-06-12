@@ -19,9 +19,10 @@ const ImageInput = ({
   maxWidth = 1280,
   maxHeight = 720,
   clearImage,
+  imageUrl,
 }) => {
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(imageUrl || null);
   const [error, setError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -31,6 +32,10 @@ const ImageInput = ({
     }
     setSnackbarOpen(false);
   };
+
+  useEffect(() => {
+    setImagePreview(imageUrl);
+  }, [imageUrl]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -73,12 +78,6 @@ const ImageInput = ({
       onImageChange(null);
     }
   };
-
-  useEffect(() => {
-    if (clearImage) {
-      handleRemoveImage();
-    }
-  }, [clearImage]);
 
   return (
     <>

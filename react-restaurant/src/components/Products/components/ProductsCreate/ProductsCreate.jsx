@@ -23,11 +23,14 @@ import {
   hasNoSpecialCharacters,
   isMaxLength,
 } from "../../validators";
+import { useSnackbar } from "notistack";
 import ImageInput from "../ProductsImage/ProductsImage";
 import "./ProductsCreateStyles.css";
 
 const ProductsCreate = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [product, setProduct] = useState({
     id: "",
     category: "",
@@ -40,17 +43,12 @@ const ProductsCreate = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [clearImage, setClearImage] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const formattedValue =
-      name === "price" || name === "amountInStock" || name === "cost"
-        ? parseFloat(value) || 0
-        : value;
     setProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: formattedValue,
+      [name]: value,
     }));
   };
 
@@ -89,6 +87,10 @@ const ProductsCreate = () => {
 
   const formValidations = () => {
     const newErrors = {};
+    const price = parseFloat(product.price);
+    const cost = parseFloat(product.cost);
+    const amountInStock = parseFloat(product.amountInStock);
+
     if (!isRequired(product.name)) {
       newErrors.name = "Name is required";
     } else if (!hasNoSpecialCharacters(product.name)) {
@@ -105,13 +107,13 @@ const ProductsCreate = () => {
     ) {
       newErrors.options = "Options are required";
     }
-    if (!isPositiveNumber(product.price)) {
+    if (!isPositiveNumber(price)) {
       newErrors.price = "Price must be greater than 0";
     }
-    if (!isPositiveNumber(product.cost)) {
+    if (!isPositiveNumber(cost)) {
       newErrors.cost = "Cost must be greater than 0";
     }
-    if (!isPositiveNumber(product.amountInStock)) {
+    if (!isPositiveNumber(amountInStock)) {
       newErrors.amountInStock = "Amount in Stock must be greater than 0";
     }
     setErrors(newErrors);
@@ -121,40 +123,42 @@ const ProductsCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formValidations()) return;
+
     const newProductRef = push(ref(database, "merchant/products"));
-    const productGenerateId = { ...product, id: newProductRef.key };
+    const productGenerateId = {
+      ...product,
+      id: newProductRef.key,
+      price: parseFloat(product.price),
+      cost: parseFloat(product.cost),
+      amountInStock: parseFloat(product.amountInStock),
+    };
+
     set(newProductRef, productGenerateId)
       .then(() => {
-        alert("Saved Successfully!");
+        enqueueSnackbar("Product Saved successfully!", {
+          variant: "success",
+        });
+        navigate("/products");
         setProduct({
           category: "",
           name: "",
           options: "",
-          price: 0,
-          cost: 0,
-          amountInStock: 0,
+          price: "",
+          cost: "",
+          amountInStock: "",
           imageUrl: "",
         });
         navigate("/products");
       })
       .catch((error) => {
-        console.error("Error creating product: ", error);
+        enqueueSnackbar("Error deleting product: " + error.message, {
+          variant: "error",
+        });
       });
   };
 
-  const handleClear = () => {
-    setProduct({
-      id: "",
-      category: "",
-      name: "",
-      options: "",
-      price: 0,
-      cost: 0,
-      amountInStock: 0,
-      imageUrl: "",
-    });
-    setClearImage(true);
-    setTimeout(() => setClearImage(false), 100);
+  const handleCancel = () => {
+    navigate("/products");
   };
 
   const productCategories = [
@@ -330,8 +334,12 @@ const ProductsCreate = () => {
           </Grid>
         </form>
       </Card>
-      <ImageInput onImageChange={handleImageChange} clearImage={clearImage} />
-      <SaveButtonBar onSave={handleSubmit} onClear={handleClear} />
+      <ImageInput onImageChange={handleImageChange} />
+      <SaveButtonBar
+        onSave={handleSubmit}
+        onCancel={handleCancel}
+        isEditing={true}
+      />
     </>
   );
 };
