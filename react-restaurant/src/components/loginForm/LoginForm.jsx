@@ -8,8 +8,8 @@ const LoginForm = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(); // Simulate login
-    navigate("/"); // Navigate to home after login
+    onLogin();
+    navigate("/");
   };
 
   return (

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProductsList from "./components/ProductsList/ProductsList";
+
 const Products = () => {
   return (
     <div>
@@ -7,6 +9,7 @@ const Products = () => {
       <Link to="/products/create">
         <button>Create product</button>
       </Link>
+      <ProductsList />
     </div>
   );
 };

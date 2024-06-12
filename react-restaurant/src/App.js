@@ -6,6 +6,8 @@ import Home from './components/Home/Home';
 import Products from './components/Products/Products';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import ProductsCreate from './components/Products/components/ProductsCreate/ProductsCreate';
+import ProductsDetail from './components/Products/components/ProductsDetail/ProductsDetail';
+import ProductsList from './components/Products/components/ProductsList/ProductsList';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +49,8 @@ const App = () => {
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/products/create" element={<ProductsCreate />} />
+                  <Route path="/products/list" element={<ProductsList />} />
+                  <Route path="/products/details/:id" element={<ProductsDetail />} />
                 </Routes>
               </Layout>
             </ProtectedRoute>
