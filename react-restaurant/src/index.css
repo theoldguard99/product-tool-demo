@@ -14,7 +14,7 @@ body {
   justify-content: center;
   display: flex;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100%;
   background: url("./components/assets/demo-image-restaurant-login.jpg")
     no-repeat;
   background-size: cover;
