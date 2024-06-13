@@ -13,7 +13,7 @@ root.render(
         vertical: 'top',
         horizontal: 'right',
       }}
-      autoHideDuration={2000}
+      autoHideDuration={4000}
     >
       <App />
     </SnackbarProvider>

@@ -14,6 +14,9 @@ import {
   FormHelperText,
   Grid,
   Tooltip,
+  Box,
+  Typography,
+  IconButton,
   InputAdornment,
 } from "@mui/material";
 import SaveButtonBar from "../../../SaveButtonBar/SaveButtonBar";
@@ -24,6 +27,9 @@ import {
   isMaxLength,
 } from "../../validators";
 import { useSnackbar } from "notistack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import StarBorder from "@mui/icons-material/StarBorder";
+import Star from "@mui/icons-material/Star";
 import ProductImage from "../ProductsImage/ProductsImage";
 import "./ProductsCreateStyles.css";
 
@@ -40,6 +46,7 @@ const ProductsCreate = () => {
     cost: 0,
     amountInStock: 0,
     imageUrl: "",
+    isFeatured: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -65,6 +72,13 @@ const ProductsCreate = () => {
         options: "None",
       }));
     }
+  };
+
+  const toggleFeatured = () => {
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      isFeatured: !prevProduct.isFeatured,
+    }));
   };
 
   const handleImageChange = (file) => {
@@ -188,9 +202,42 @@ const ProductsCreate = () => {
 
   return (
     <>
+      <Box display="flex" alignItems="center" mb={2}>
+        <IconButton onClick={() => navigate("/products")} color="inherit">
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{ ml: 1 }}
+          className="chip-title"
+        >
+          Create Product
+        </Typography>
+      </Box>
       <Card className="card-container">
         <CardHeader
-          title={<span className="bold-title">Product Details</span>}
+          title={
+            <Box display="flex" alignItems="center">
+              <Typography variant="h6" component="span" className="bold-title">
+                Product Details
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                className="tool-bar"
+              >
+                Feature this product
+              </Typography>
+              <IconButton onClick={toggleFeatured} color="default">
+                {product.isFeatured ? (
+                  <Star className="yellow-icon" />
+                ) : (
+                  <StarBorder className="bordered-icon" />
+                )}
+              </IconButton>
+            </Box>
+          }
         />
         <Divider />
         <form onSubmit={handleSubmit} className="form-container">

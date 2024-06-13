@@ -40,8 +40,8 @@ const ProductImage = ({
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.type !== "image/jpeg") {
-        setError("Only JPEG format is allowed");
+      if (file.type !== "image/jpeg" && file.type !== "image/png") {
+        setError("Only JPEG and PNG formats are allowed");
         setSnackbarOpen(true);
         return;
       }
@@ -93,7 +93,7 @@ const ProductImage = ({
         <CardContent>
           <Box display="flex" flexDirection="column" alignItems="center">
             <input
-              accept="image/jpeg"
+              accept="image/jpeg , image/png"
               style={{ display: "none" }}
               id="image-input"
               type="file"
@@ -133,12 +133,12 @@ const ProductImage = ({
             <Typography
               variant="body2"
               color="textSecondary"
-              align="center"
+              align="left"
               mt={2}
             >
-              Image Upload Guidelines:
+              <strong>Image Upload Guidelines:</strong>
               <br />
-              Accepted filetype is JPEG ONLY
+              Accepted filetypes are JPEG and PNG
               <br />
               Dimensions should be 1280 by 720 pixels
             </Typography>

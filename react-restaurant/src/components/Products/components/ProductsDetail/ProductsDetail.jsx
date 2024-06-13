@@ -11,19 +11,33 @@ import {
   Box,
   FormControl,
   InputLabel,
+  Typography,
   Select,
+  FormHelperText,
+  IconButton,
   MenuItem,
   InputAdornment,
 } from "@mui/material";
+import {
+  isRequired,
+  isPositiveNumber,
+  hasNoSpecialCharacters,
+  isMaxLength,
+} from "../../validators";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import StarBorder from "@mui/icons-material/StarBorder";
+import Star from "@mui/icons-material/Star";
 import { useSnackbar } from "notistack";
 import ProductImage from "../ProductsImage/ProductsImage";
 import SaveButtonBar from "../../../SaveButtonBar/SaveButtonBar";
+import "./ProductsDetailStyles.css";
 
 const ProductsDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [errors, setErrors] = useState({});
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -41,12 +55,44 @@ const ProductsDetail = () => {
       });
   }, [id]);
 
+  const toggleFeatured = () => {
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      isFeatured: !prevProduct.isFeatured,
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
+  };
+
+  const formValidations = () => {
+    const newErrors = {};
+    if (!isRequired(product.name)) {
+      newErrors.name = "Name is required";
+    } else if (!hasNoSpecialCharacters(product.name)) {
+      newErrors.name = "Name should not contain special characters";
+    } else if (!isMaxLength(product.name, 255)) {
+      newErrors.name = "Name should not exceed 255 characters";
+    }
+    if (!isRequired(product.category)) {
+      newErrors.category = "Category is required";
+    }
+    if (!isPositiveNumber(product.price)) {
+      newErrors.price = "Price must be greater than 0";
+    }
+    if (!isPositiveNumber(product.cost)) {
+      newErrors.cost = "Cost must be greater than 0";
+    }
+    if (!isPositiveNumber(product.amountInStock)) {
+      newErrors.amountInStock = "Amount in Stock must be greater than 0";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleImageChange = (file) => {
@@ -68,6 +114,12 @@ const ProductsDetail = () => {
   };
 
   const handleSave = () => {
+    if (!formValidations()) {
+      enqueueSnackbar("Some fields have incorrect inputs.", {
+        variant: "error",
+      });
+      return;
+    }
     const productRef = ref(database, `merchant/products/${id}`);
     update(productRef, product)
       .then(() => {
@@ -133,32 +185,50 @@ const ProductsDetail = () => {
 
   return (
     <>
+      <Box display="flex" alignItems="center" mb={2}>
+        <IconButton onClick={() => navigate("/products")} color="inherit">
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{ ml: 1 }}
+          className="chip-title"
+        >
+          Update Product
+        </Typography>
+      </Box>
       <Card className="card-container">
         <CardHeader
-          title={<span className="bold-title">Product Details</span>}
+          title={
+            <Box display="flex" alignItems="center">
+              <Typography variant="h6" component="span" className="bold-title">
+                Product Details
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                className="tool-bar"
+              >
+                Featured this product
+              </Typography>
+              <IconButton
+                onClick={toggleFeatured}
+                color="default"
+                disabled={!isEditing}
+              >
+                {product.isFeatured ? (
+                  <Star className="yellow-icon" />
+                ) : (
+                  <StarBorder className="bordered-icon" />
+                )}
+              </IconButton>
+            </Box>
+          }
         />
         <Divider />
         <Box p={2}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth margin="normal" disabled={!isEditing}>
-                <InputLabel id="category-label">Category</InputLabel>
-                <Select
-                  labelId="category-label"
-                  id="category"
-                  name="category"
-                  value={product.category}
-                  onChange={handleChange}
-                  label="Category"
-                >
-                  {productCategories.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -169,12 +239,39 @@ const ProductsDetail = () => {
                 value={product.name}
                 onChange={handleChange}
                 disabled={!isEditing}
+                error={!!errors.name}
+                helperText={errors.name}
+                FormHelperTextProps={{ error: !!errors.name }}
+                inputProps={{ maxLength: 255 }}
               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth margin="normal" disabled={!isEditing}>
+                <InputLabel id="category-label">Category</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category"
+                  name="category"
+                  label="Category"
+                  value={product.category}
+                  onChange={handleChange}
+                >
+                  {productCategories.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.category && (
+                  <FormHelperText>{errors.category}</FormHelperText>
+                )}
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl
                 fullWidth
                 margin="normal"
+                error={!!errors.options}
                 disabled={
                   !isEditing ||
                   product.category === "Non-Foods/Disposables/Smallwares"
@@ -195,6 +292,9 @@ const ProductsDetail = () => {
                     </MenuItem>
                   ))}
                 </Select>
+                {errors.options && (
+                  <FormHelperText>{errors.options}</FormHelperText>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -212,6 +312,9 @@ const ProductsDetail = () => {
                     <InputAdornment position="start">₱</InputAdornment>
                   ),
                 }}
+                error={!!errors.price}
+                helperText={errors.price}
+                FormHelperTextProps={{ error: !!errors.price }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -229,6 +332,9 @@ const ProductsDetail = () => {
                     <InputAdornment position="start">₱</InputAdornment>
                   ),
                 }}
+                error={!!errors.cost}
+                helperText={errors.cost}
+                FormHelperTextProps={{ error: !!errors.cost }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -241,6 +347,9 @@ const ProductsDetail = () => {
                 value={product.amountInStock}
                 onChange={handleChange}
                 disabled={!isEditing}
+                error={!!errors.amountInStock}
+                helperText={errors.amountInStock}
+                FormHelperTextProps={{ error: !!errors.amountInStock }}
               />
             </Grid>
           </Grid>
