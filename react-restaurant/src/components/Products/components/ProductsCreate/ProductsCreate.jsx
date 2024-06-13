@@ -209,7 +209,7 @@ const ProductsCreate = () => {
         <Typography
           variant="h4"
           component="h1"
-          sx={{ ml: 1 }}
+          sx={{ ml: 1, fontFamily: "Poppins, sans-serif", fontWeight: "bold" }}
           className="chip-title"
         >
           Create Product
@@ -219,7 +219,12 @@ const ProductsCreate = () => {
         <CardHeader
           title={
             <Box display="flex" alignItems="center">
-              <Typography variant="h6" component="span" className="bold-title">
+              <Typography
+                variant="h6"
+                component="span"
+                className="bold-title"
+                sx={{ fontFamily: "Poppins, sans-serif", fontWeight: "bold" }}
+              >
                 Product Details
               </Typography>
               <Typography
