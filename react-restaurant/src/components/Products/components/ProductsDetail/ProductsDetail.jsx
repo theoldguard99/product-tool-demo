@@ -13,6 +13,10 @@ import {
   InputLabel,
   Typography,
   Select,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Button,
   FormHelperText,
   IconButton,
   MenuItem,
@@ -39,6 +43,7 @@ const ProductsDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
   const { enqueueSnackbar } = useSnackbar();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
     const productRef = ref(database, `merchant/products/${id}`);
@@ -136,22 +141,29 @@ const ProductsDetail = () => {
       });
   };
 
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
   const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      const productRef = ref(database, `merchant/products/${id}`);
-      remove(productRef)
-        .then(() => {
-          enqueueSnackbar("Product deleted successfully!", {
-            variant: "success",
-          });
-          navigate("/products");
-        })
-        .catch((error) => {
-          enqueueSnackbar("Error deleting product: " + error.message, {
-            variant: "error",
-          });
+    const productRef = ref(database, `merchant/products/${id}`);
+    remove(productRef)
+      .then(() => {
+        enqueueSnackbar("Product deleted successfully!", {
+          variant: "success",
         });
-    }
+        navigate("/products");
+      })
+      .catch((error) => {
+        enqueueSnackbar("Error deleting product: " + error.message, {
+          variant: "error",
+        });
+      });
+    handleCloseDeleteDialog();
   };
 
   if (!product) {
@@ -373,10 +385,28 @@ const ProductsDetail = () => {
         onCancel={() => {
           setIsEditing(false);
         }}
-        onDelete={handleDelete}
+        onDelete={handleOpenDeleteDialog}
         isEditing={isEditing}
         hasDetails={!!product}
       />
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this product?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Cancel
+          </Button>
+
+          <Button onClick={handleDelete} color="error" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
