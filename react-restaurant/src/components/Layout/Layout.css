@@ -5,6 +5,7 @@
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
 }
 
 .sidebar {
@@ -20,7 +21,6 @@
 }
 
 .content {
-  margin-left: 250px;
   padding: 20px;
   flex-grow: 1;
 }

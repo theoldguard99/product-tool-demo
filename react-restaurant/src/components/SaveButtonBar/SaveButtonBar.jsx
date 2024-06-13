@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Box } from "@mui/material";
+import React, { useState } from "react";
+import { Button, Box, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import "./SaveButtonBar.css";
 
 const SaveButtonBar = ({
@@ -10,6 +10,21 @@ const SaveButtonBar = ({
   isEditing,
   hasDetails,
 }) => {
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
+    onDelete();
+    handleCloseDeleteDialog();
+  };
+
   return (
     <>
       <Box
@@ -32,7 +47,11 @@ const SaveButtonBar = ({
             <Button variant="contained" color="primary" onClick={onEdit}>
               Edit
             </Button>
-            <Button variant="contained" color="error" onClick={onDelete}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleOpenDeleteDialog}
+            >
               Delete
             </Button>
           </>
@@ -47,6 +66,24 @@ const SaveButtonBar = ({
           </>
         )}
       </Box>
+
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this item?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="error" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

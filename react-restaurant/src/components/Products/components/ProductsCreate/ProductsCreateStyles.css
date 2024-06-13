@@ -1,18 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
 .card-container {
   border-radius: 15px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 .bold-title {
   font-weight: bold;
+  flex-grow: 1;
+  font-size: 1.5rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.tool-bar {
+  font-weight: bold;
+  margin-left: 8px;
+  font-family: "Poppins", sans-serif;
 }
 
 .optional-text {
   font-style: italic;
   color: gray;
   font-size: 0.5em;
+  font-family: "Poppins", sans-serif;
 }
 
 .form-container {
   padding: 20px;
+}
+
+.yellow-icon {
+  color: #ffd700;
+  margin-bottom: 5px;
+}
+
+.bordered-icon {
+  margin-bottom: 5px;
+}
+
+.chip-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
 }
